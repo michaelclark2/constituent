@@ -7,14 +7,14 @@ from app import app, aws_auth
 def login():
     return redirect(aws_auth.get_sign_in_url())
 
+@app.route('/logout')
+def logout():
+    return redirect(aws_auth.get_sign_out_url())
+
 @app.route('/redirect')
 def aws_redirect():
     access_token = aws_auth.get_access_token(request.args)
     return jsonify({"access_token": access_token})
-
-@app.route('/logout')
-def logout():
-    return redirect(aws_auth.get_sign_out_url())
 
 @app.route('/signout')
 def signout():
