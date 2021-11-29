@@ -3,6 +3,6 @@ from app import app
 from app.routes import auth
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return 'Hello World!'
+    return "Hello World!"
