@@ -1,5 +1,8 @@
 from app import app
 
-@app.route('/')
+from app.routes import auth
+
+
+@app.route("/")
 def index():
-    return 'Hello World!'
+    return "Hello World!"
