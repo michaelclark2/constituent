@@ -2,7 +2,14 @@
 
 ## Technologies Used
 
+### Backend
+
 - Flask
-- React
 - AWS Cognito
 - AWS DynamoDB
+
+### Frontend
+
+- React
+- Sass
+- Bootstrap 5
