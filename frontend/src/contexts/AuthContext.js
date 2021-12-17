@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Cognito from "../utils/aws";
@@ -9,19 +9,41 @@ export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (refreshToken) {
+      Cognito.refreshToken(refreshToken)
+        .then((res) => {
+          const { AccessToken } = res.AuthenticationResult;
+          setAccessToken(AccessToken);
+          navigate("/");
+        })
+        .catch((err) => {
+          navigate("/login");
+        })
+        .finally(() => setInitialLoading(false));
+    } else {
+      setInitialLoading(false);
+    }
+  }, []);
 
   const login = (username, password) => {
     setLoading(true);
 
     Cognito.login({ username, password })
       .then((res) => {
-        setRefreshToken(res.RefreshToken);
-        setAccessToken(res.AuthenticationResult.AccessToken);
+        const { RefreshToken, AccessToken } = res.AuthenticationResult;
+        localStorage.setItem("refreshToken", RefreshToken);
+        setAccessToken(AccessToken);
         navigate("/");
       })
-      .catch(console.error)
+      .catch((err) => {
+        console.error(err);
+      })
       .finally(setLoading(false));
   };
 
@@ -31,6 +53,7 @@ export const AuthProvider = ({ children }) => {
     Cognito.logout(accessToken)
       .then((res) => {
         setAccessToken();
+        localStorage.removeItem("refreshToken");
         navigate("/");
       })
       .catch(console.error)
@@ -46,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={authValues}>
-      {!loading && children}
+      {!initialLoading && children}
     </AuthContext.Provider>
   );
 };

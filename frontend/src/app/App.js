@@ -33,13 +33,15 @@ const Router = () => {
 const App = () => {
   return (
     <div className="App">
-      <Header />
       <div className="container-fluid">
-        <BrowserRouter>
-          <AuthProvider>
-            <Router />
-          </AuthProvider>
-        </BrowserRouter>
+        <Header />
+        <div className="row justify-content-center">
+          <BrowserRouter>
+            <AuthProvider>
+              <Router />
+            </AuthProvider>
+          </BrowserRouter>
+        </div>
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ class Cognito {
   }
 
   async login({ username, password }) {
-    const initiateAuthCommand = new InitiateAuthCommand({
+    const loginCommand = new InitiateAuthCommand({
       ClientId: Config.cognito.AWS_COGNITO_APP_CLIENT_ID,
       AuthFlow: "USER_PASSWORD_AUTH",
       AuthParameters: {
@@ -29,14 +29,24 @@ class Cognito {
         PASSWORD: password,
       },
     });
-    return await this.sendCommand(initiateAuthCommand);
+    return await this.sendCommand(loginCommand);
+  }
+
+  async refreshToken(token) {
+    const refreshTokenCommand = new InitiateAuthCommand({
+      ClientId: Config.cognito.AWS_COGNITO_APP_CLIENT_ID,
+      AuthFlow: "REFRESH_TOKEN_AUTH",
+      AuthParameters: {
+        REFRESH_TOKEN: token,
+      },
+    });
+    return await this.sendCommand(refreshTokenCommand);
   }
 
   async logout(accessToken) {
     const signOutCommand = new GlobalSignOutCommand({
       AccessToken: accessToken,
     });
-
     return await this.sendCommand(signOutCommand);
   }
 }
