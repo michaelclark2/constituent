@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from "../contexts/AuthContext";
 import Header from "../components/Header/Header";
 import HomePage from "../screens/HomePage/HomePage";
 import LoginPage from "../screens/LoginPage/LoginPage";
+import SignupPage from "../screens/SignupPage/SignupPage";
 
 const RequireAuth = ({ children }) => {
   const { accessToken } = useAuth();
@@ -26,6 +27,7 @@ const Router = () => {
         }
       />
       <Route exact path="/login" element={<LoginPage />} />
+      <Route exact path="/signup" element={<SignupPage />} />
     </Routes>
   );
 };
