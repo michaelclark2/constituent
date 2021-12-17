@@ -43,9 +43,7 @@ const LoginPage = (props) => {
               Login
             </button>
             <small className="col-12">
-              <Link className="text-small" to="/signup">
-                Don't have an account?
-              </Link>
+              <Link to="/signup">Don't have an account?</Link>
             </small>
           </form>
         </div>

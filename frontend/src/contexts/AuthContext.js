@@ -25,10 +25,23 @@ export const AuthProvider = ({ children }) => {
       .finally(setLoading(false));
   };
 
+  const logout = () => {
+    setLoading(true);
+
+    Cognito.logout(accessToken)
+      .then((res) => {
+        setAccessToken();
+        navigate("/");
+      })
+      .catch(console.error)
+      .finally(setLoading(false));
+  };
+
   const authValues = {
     accessToken,
     loading,
     login,
+    logout,
   };
 
   return (

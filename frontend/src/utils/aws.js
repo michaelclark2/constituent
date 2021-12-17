@@ -1,5 +1,6 @@
 import {
   CognitoIdentityProviderClient,
+  GlobalSignOutCommand,
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import Config from "../utils/config";
@@ -29,6 +30,14 @@ class Cognito {
       },
     });
     return await this.sendCommand(initiateAuthCommand);
+  }
+
+  async logout(accessToken) {
+    const signOutCommand = new GlobalSignOutCommand({
+      AccessToken: accessToken,
+    });
+
+    return await this.sendCommand(signOutCommand);
   }
 }
 
