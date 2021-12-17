@@ -1,4 +1,6 @@
 import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Cognito from "../utils/aws";
 
 const AuthContext = createContext({});
@@ -8,6 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [refreshToken, setRefreshToken] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const login = (username, password) => {
     setLoading(true);
 
@@ -15,6 +19,7 @@ export const AuthProvider = ({ children }) => {
       .then((res) => {
         setRefreshToken(res.RefreshToken);
         setAccessToken(res.AuthenticationResult.AccessToken);
+        navigate("/");
       })
       .catch(console.error)
       .finally(setLoading(false));
