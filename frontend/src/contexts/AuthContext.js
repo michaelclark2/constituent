@@ -47,6 +47,21 @@ export const AuthProvider = ({ children }) => {
       .finally(setLoading(false));
   };
 
+  const signup = ({ username, password, street, city, state, zipcode }) => {
+    setLoading(true);
+
+    Cognito.signup({ username, password, street, city, state, zipcode })
+      .then((res) => {
+        debugger;
+        const { RefreshToken, AccessToken } = res.AuthenticationResult;
+        localStorage.setItem("refreshToken", RefreshToken);
+        setAccessToken(AccessToken);
+        navigate("/");
+      })
+      .then((err) => console.error(err))
+      .finally(() => setLoading(false));
+  };
+
   const logout = () => {
     setLoading(true);
 
@@ -65,6 +80,7 @@ export const AuthProvider = ({ children }) => {
     loading,
     login,
     logout,
+    signup,
   };
 
   return (

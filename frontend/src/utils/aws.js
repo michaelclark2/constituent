@@ -2,6 +2,7 @@ import {
   CognitoIdentityProviderClient,
   GlobalSignOutCommand,
   InitiateAuthCommand,
+  SignUpCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import Config from "../utils/config";
 
@@ -30,6 +31,21 @@ class Cognito {
       },
     });
     return await this.sendCommand(loginCommand);
+  }
+
+  async signup({ username, password, street, city, state, zipcode }) {
+    const signUpCommand = new SignUpCommand({
+      ClientId: Config.cognito.AWS_COGNITO_APP_CLIENT_ID,
+      Username: username,
+      Password: password,
+      UserAttributes: [
+        {
+          Name: "address",
+          Value: `${street} ${city}, ${state} ${zipcode}`,
+        },
+      ],
+    });
+    return await this.sendCommand(signUpCommand);
   }
 
   async refreshToken(token) {

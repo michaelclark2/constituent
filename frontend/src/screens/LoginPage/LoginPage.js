@@ -25,6 +25,7 @@ const LoginPage = (props) => {
               id="loginEmail"
               name="email"
               className="form-control"
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </label>
@@ -35,6 +36,7 @@ const LoginPage = (props) => {
               name="password"
               type="password"
               className="form-control"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>

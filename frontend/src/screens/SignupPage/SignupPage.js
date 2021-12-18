@@ -16,6 +16,7 @@ const SignupPage = (props) => {
 
   const submitForm = (e) => {
     e.preventDefault();
+    signup({ username, password, street, city, state, zipcode });
   };
 
   return (
