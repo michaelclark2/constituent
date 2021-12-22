@@ -47,16 +47,12 @@ export const AuthProvider = ({ children }) => {
       .finally(setLoading(false));
   };
 
-  const signup = ({ username, password, street, city, state, zipcode }) => {
+  const signup = (userInfo) => {
     setLoading(true);
 
-    Cognito.signup({ username, password, street, city, state, zipcode })
+    Cognito.signup(userInfo)
       .then((res) => {
-        debugger;
-        const { RefreshToken, AccessToken } = res.AuthenticationResult;
-        localStorage.setItem("refreshToken", RefreshToken);
-        setAccessToken(AccessToken);
-        navigate("/");
+        navigate("/confirm");
       })
       .then((err) => console.error(err))
       .finally(() => setLoading(false));

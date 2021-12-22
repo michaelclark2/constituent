@@ -92,7 +92,7 @@ const SignupPage = (props) => {
             className="btn btn-primary col-12 mt-2 mb-2"
             type="submit"
           >
-            Login
+            Register
           </button>
           <small className="col-12">
             <Link to="/login">Already have an account?</Link>

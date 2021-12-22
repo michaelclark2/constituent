@@ -7,6 +7,7 @@ import Header from "../components/Header/Header";
 import HomePage from "../screens/HomePage/HomePage";
 import LoginPage from "../screens/LoginPage/LoginPage";
 import SignupPage from "../screens/SignupPage/SignupPage";
+import ConfirmPage from "../screens/SignupPage/ConfirmPage/ConfirmPage";
 
 const RequireAuth = ({ children }) => {
   const { accessToken } = useAuth();
@@ -28,6 +29,7 @@ const Router = () => {
       />
       <Route exact path="/login" element={<LoginPage />} />
       <Route exact path="/signup" element={<SignupPage />} />
+      <Route exact path="/confirm" element={<ConfirmPage />} />
     </Routes>
   );
 };
