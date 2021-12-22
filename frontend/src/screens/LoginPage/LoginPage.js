@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const LoginPage = (props) => {
-  const { login, loading } = useAuth();
+  const { login, loading, error } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,7 +13,7 @@ const LoginPage = (props) => {
   };
 
   return (
-    <div className="Login card col-4">
+    <div className="Login card">
       <div className="card-header">
         <h2>Login</h2>
       </div>
@@ -47,8 +47,13 @@ const LoginPage = (props) => {
           >
             Login
           </button>
+          {error ? (
+            <div className="alert alert-danger">{error.message}</div>
+          ) : (
+            ""
+          )}
           <small className="col-12">
-            <Link to="/signup">Don't have an account?</Link>
+            <Link to="/auth/signup">Don't have an account?</Link>
           </small>
         </form>
       </div>

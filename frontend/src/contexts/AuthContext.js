@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Cognito from "../utils/aws";
 
@@ -7,11 +7,17 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState("");
-  const [refreshToken, setRefreshToken] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (error) setError(null);
+  }, [location.pathname]);
 
   useEffect(() => {
     const refreshToken = localStorage.getItem("refreshToken");
@@ -23,7 +29,7 @@ export const AuthProvider = ({ children }) => {
           navigate("/");
         })
         .catch((err) => {
-          navigate("/login");
+          navigate("/auth/login");
         })
         .finally(() => setInitialLoading(false));
     } else {
@@ -42,6 +48,7 @@ export const AuthProvider = ({ children }) => {
         navigate("/");
       })
       .catch((err) => {
+        setError(err);
         console.error(err);
       })
       .finally(setLoading(false));
@@ -52,9 +59,12 @@ export const AuthProvider = ({ children }) => {
 
     Cognito.signup(userInfo)
       .then((res) => {
-        navigate("/confirm");
+        navigate("/auth/confirm");
       })
-      .then((err) => console.error(err))
+      .catch((err) => {
+        setError(err);
+        console.error(err);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -77,6 +87,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     signup,
+    error,
   };
 
   return (
