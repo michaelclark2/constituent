@@ -13,7 +13,7 @@ const LoginPage = (props) => {
   };
 
   return (
-    <div className="Login card">
+    <div className="Login card border-primary">
       <div className="card-header">
         <h2>Login</h2>
       </div>

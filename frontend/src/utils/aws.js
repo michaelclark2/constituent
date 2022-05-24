@@ -43,6 +43,10 @@ class Cognito {
           Name: "address",
           Value: `${street} ${city}, ${state} ${zipcode}`,
         },
+        {
+          Name: "custom:state",
+          Value: state,
+        },
       ],
     });
     return await this.sendCommand(signUpCommand);
