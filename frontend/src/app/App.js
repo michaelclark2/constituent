@@ -1,3 +1,5 @@
+import bootstrap from "bootstrap";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.scss";
 
