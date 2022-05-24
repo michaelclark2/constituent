@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
+import { US_STATES } from "../../utils/constants";
 
 const SignupPage = (props) => {
   const { loading, signup, error } = useAuth();
@@ -79,13 +80,32 @@ const SignupPage = (props) => {
           <div className="col-2">
             <label htmlFor="signupState" className="form-label col-12">
               State
-              <input
+              {/* <input
                 id="signupState"
                 name="state"
                 className="form-control"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-              />
+              /> */}
+              <select className="form-select">
+                {[
+                  <option value="" selected>
+                    ---
+                  </option>,
+                ].concat(
+                  Object.entries(US_STATES).map((stateArr) => {
+                    const [value, display] = stateArr;
+                    return (
+                      <option
+                        value={value}
+                        {...(state == value ? "selected" : "")}
+                      >
+                        {display}
+                      </option>
+                    );
+                  })
+                )}
+              </select>
             </label>
           </div>
           <div className="col-6">
