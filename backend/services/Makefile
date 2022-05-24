@@ -11,3 +11,4 @@ sorting-hat-deploy:
 	docker push 227557930319.dkr.ecr.us-east-1.amazonaws.com/sorting-hat:latest
 	aws lambda update-function-code --region us-east-1 --function-name sorting-hat --image-uri 227557930319.dkr.ecr.us-east-1.amazonaws.com/sorting-hat:latest
 
+sorting-hat-redeploy: sorting-hat-build sorting-hat-deploy
