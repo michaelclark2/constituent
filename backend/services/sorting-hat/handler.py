@@ -33,8 +33,9 @@ def lambda_handler(event, context):
             if "/cd:" in key:
                 congressional_district = key.split(":")[-1] * 1
 
-    except requests.exceptions.HTTPError:
-        raise Exception(f"Invalid address: {new_user.get('address')}")
+    except requests.exceptions.HTTPError as e:
+        raise Exception(f"Google Civics API failure", e)
+        # TODO: error logging
 
     response = dynamodb_client.put_item(
         TableName="constituent.users",
